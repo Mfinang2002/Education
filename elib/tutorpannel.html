@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   <title>E-Library</title>
+   <style>
+       .headset-icon {
+           position: fixed;
+           top: 560px;
+           right: 50px;
+           font-size: 60px;
+           color: #007bff;
+           z-index: 1000;
+           width: 60px;
+       }
+
+       .side-nav {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 250px;
+           height: 100vh;
+           background-color: #2c3e50;
+           color: white;
+           padding-top: 20px;
+           overflow-y: auto;
+       }
+
+       .list-group-item {
+           background-color: transparent;
+           border: none;
+           padding: 10px 15px;
+           font-size: 1rem;
+           font-weight: bold;
+       }
+
+       .list-group-item a {
+           text-decoration: none;
+           color: white;
+       }
+
+       .list-group-item:hover {
+           background-color: rgba(255, 255, 255, 0.1);
+           border-radius: 5px;
+           transition: background-color 0.3s ease-in-out;
+       }
+
+       .list-group-item:hover a {
+           color: #1abc9c;
+       }
+
+       .accordion-header label {
+           display: block;
+           padding: 10px 15px;
+           color: white;
+           cursor: pointer;
+           font-size: 1rem;
+           transition: background-color 0.3s ease-in-out;
+       }
+
+       .accordion-header label:hover {
+           background-color: #34495e;
+           border-radius: 5px;
+       }
+
+       .accordion-content {
+           display: none;
+           padding-left: 20px;
+           background-color: #34495e;
+       }
+
+       .accordion-item input[type="checkbox"] {
+           display: none;
+       }
+
+       .accordion-item input[type="checkbox"]:checked ~ .accordion-content {
+           display: block;
+       }
+
+       .accordion-content ul li {
+           padding: 8px 0;
+       }
+
+       .accordion-content ul li a {
+           color: white;
+           font-weight: normal;
+       }
+
+       .accordion-content ul li:hover {
+           background-color: rgba(255, 255, 255, 0.1);
+           border-radius: 5px;
+           transition: background-color 0.3s ease-in-out;
+       }
+
+       .accordion-content ul li:hover a {
+           color: #1abc9c;
+       }
+
+       .main-content {
+           margin-left: 260px;
+           padding: 20px;
+       }
+
+       .top-bar {
+           background-color: #1abc9c;
+           color: white;
+           padding: 10px 20px;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+       }
+
+       .top-bar .nav-link {
+           color: white;
+           font-weight: bold;
+       }
+
+       .top-bar .nav-link:hover {
+           text-decoration: underline;
+       }
+
+       .search-bar {
+           background-color: #ecf0f1;
+           padding: 15px 20px;
+           display: flex;
+           align-items: center;
+           gap: 10px;
+       }
+
+       .dashboard-box {
+           border-radius: 10px;
+           padding: 15px;
+           color: white;
+           font-size: 1.25rem;
+           font-weight: bold;
+           text-align: center;
+           height: 100%;
+       }
+
+       .students-box { background-color: #3498db; }
+       .modules-box { background-color: #9b59b6; }
+       .assignments-given-box { background-color: #f39c12; }
+       .submitted-assignments-box { background-color: #27ae60; }
+       .unsubmitted-assignments-box { background-color: #e74c3c; }
+   </style>
+</head>
+<body>
+   <span class="headset-icon">🎧</span>
+
+   <div class="side-nav">
+       <ul class="list-group">
+           <li class="list-group-item">
+               <a href="tutorpannel.html">🏠 Dashboard</a>
+           </li>
+           <li class="list-group-item">
+               <div class="accordion-item">
+                   <input type="checkbox" id="modules">
+                   <h2 class="accordion-header">
+                       <label for="modules">📚 Modules</label>
+                   </h2>
+                   <div class="accordion-content">
+                       <ul class="list-unstyled">
+                           <li><a href="#" onclick="showPanel('my-modules')">📖 My Modules</a></li>
+                           <li><a href="#" onclick="showPanel('create-module')">➕ Create Module</a></li>
+                           <li><a href="#" onclick="showPanel('delete-module')">🗑️ Delete Module</a></li>
+                       </ul>
+                   </div>
+               </div>
+           </li>
+           <li class="list-group-item">
+               <div class="accordion-item">
+                   <input type="checkbox" id="announcements">
+                   <h2 class="accordion-header">
+                       <label for="announcements">📢 Announcements</label>
+                   </h2>
+                   <div class="accordion-content">
+                       <ul class="list-unstyled">
+                           <li><a href="#" onclick="showPanel('view-announcements')">📜 View Announcements</a></li>
+                           <li><a href="#" onclick="showPanel('create-announcement')">➕ Create Announcement</a></li>
+                       </ul>
+                   </div>
+               </div>
+           </li>
+           <li class="list-group-item">
+               <div class="accordion-item">
+                   <input type="checkbox" id="assignments">
+                   <h2 class="accordion-header">
+                       <label for="assignments">📑 Assignments</label>
+                   </h2>
+                   <div class="accordion-content">
+                       <ul class="list-unstyled">
+                           <li><a href="#" onclick="showPanel('view-assignments')">📖 View Assignments</a></li>
+                           <li><a href="#" onclick="showPanel('create-assignment')">➕ Create Assignment</a></li>
+                       </ul>
+                   </div>
+               </div>
+           </li>
+           <li class="list-group-item">
+               <a href="#" onclick="showPanel('enroll-students')">👥 Enroll Students</a>
+           </li>
+           <li class="list-group-item">
+               <a href="login.html">🚪 Logout</a>
+           </li>
+       </ul>
+   </div>
+
+   <div class="main-content">
+       <div class="top-bar">
+           <div class="fw-bold fs-4">E-Library</div>
+           <nav>
+               <a href="#" class="nav-link d-inline">🏠 Home</a>
+               <a href="#" class="nav-link d-inline">💬 Support</a>
+           </nav>
+       </div>
+
+       <div class="search-bar">
+           <input type="text" class="form-control" placeholder="Search for module">
+           <button class="btn btn-primary">🔍</button>
+       </div>
+
+       <div class="container mt-4" id="dashboard">
+           <div class="row">
+               <div class="col-md-3">
+                   <div class="dashboard-box students-box">
+                       <div>📚 Students</div>
+                       <div>150</div>
+                   </div>
+               </div>
+               <div class="col-md-3">
+                   <div class="dashboard-box modules-box">
+                       <div>📖 Modules</div>
+                       <div>20</div>
+                   </div>
+               </div>
+               <div class="col-md-3">
+                   <div class="dashboard-box assignments-given-box">
+                       <div>📝 Assignments Given</div>
+                       <div>30</div>
+                   </div>
+               </div>
+               <div class="col-md-3">
+                   <div class="dashboard-box submitted-assignments-box">
+                       <div>📑 Submitted Assignments</div>
+                       <div>25</div>
+                   </div>
+               </div>
+           </div>
+           <div class="row mt-4">
+               <div class="col-md-3">
+                   <div class="dashboard-box unsubmitted-assignments-box">
+                       <div>📃 Unsubmitted Assignments</div>
+                       <div>5</div>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+       <div id="my-modules" class="container mt-4" style="display: none;">
+           <h2>My Modules</h2>
+           <p>List of your modules will be displayed here.</p>
+        </div>
+
+        <!-- Create Module Panel -->
+        <div id="create-module" class="container mt-4" style="display: none;">
+            <h2>Create Module</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="module-name" class="form-label">Module Name</label>
+                    <input type="text" class="form-control" id="module-name" placeholder="Enter module name">
+                </div>
+                <div class="mb-3">
+                    <label for="module-cover" class="form-label">Module Cover Page</label>
+                    <input type="file" class="form-control" id="module-cover" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    <label for="module-description" class="form-label">Module Description</label>
+                    <textarea class="form-control" id="module-description" rows="3" placeholder="Briefly describe the module"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Create Module</button>
+            </form>
+        </div>
+ 
+        <!-- Delete Module Panel -->
+        <div id="delete-module" class="container mt-4" style="display: none;">
+            <h2>Delete Module</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="delete-module-name" class="form-label">Module Name</label>
+                    <input type="text" class="form-control" id="delete-module-name" placeholder="Enter module name to delete">
+                </div>
+                <button type="submit" class="btn btn-danger">Delete Module</button>
+            </form>
+        </div>
+ 
+        <!-- View Announcements Panel -->
+        <div id="view-announcements" class="container mt-4" style="display: none;">
+            <h2>View Announcements</h2>
+            <div class="list-group">
+                <!-- Example of announcements list item -->
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>Announcement Title</div>
+                    <div>
+                        <button class="btn btn-primary btn-sm">View</button>
+                        <button class="btn btn-info btn-sm">Details</button>
+                    </div>
+                </div>
+                <!-- Add more announcements as needed -->
+            </div>
+        </div>
+ 
+        <!-- Create Announcement Panel -->
+        <div id="create-announcement" class="container mt-4" style="display: none;">
+            <h2>Create Announcement</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="announcement-title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="announcement-title" placeholder="Enter title">
+                </div>
+                <div class="mb-3">
+                    <label for="announcement-content" class="form-label">Content</label>
+                    <textarea class="form-control" id="announcement-content" rows="5" placeholder="Write announcement here"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="announcement-bold" class="form-label">Formatting Options</label>
+                    <div>
+                        <button type="button" class="btn btn-secondary btn-sm">Bold</button>
+                        <button type="button" class="btn btn-secondary btn-sm">Italic</button>
+                        <button type="button" class="btn btn-secondary btn-sm">Underline</button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="announcement-module" class="form-label">Send to Module</label>
+                    <select id="announcement-module" class="form-control">
+                        <option value="all">All Modules</option>
+                        <option value="module1">Module 1</option>
+                        <option value="module2">Module 2</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Announcement</button>
+            </form>
+        </div>
+ 
+        <!-- View Assignments Panel -->
+        <div id="view-assignments" class="container mt-4" style="display: none;">
+            <h2>View Assignments</h2>
+            <div class="list-group">
+                <!-- Example of assignments list item -->
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>Assignment Title</div>
+                    <div>
+                        <button class="btn btn-primary btn-sm">View</button>
+                        <button class="btn btn-info btn-sm">Download</button>
+                    </div>
+                </div>
+                <!-- Add more assignments as needed -->
+            </div>
+        </div>
+ 
+        <!-- Create Assignment Panel -->
+        <div id="create-assignment" class="container mt-4" style="display: none;">
+            <h2>Create Assignment</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="assignment-title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="assignment-title" placeholder="Enter title">
+                </div>
+                <div class="mb-3">
+                    <label for="assignment-content" class="form-label">Content</label>
+                    <textarea class="form-control" id="assignment-content" rows="5" placeholder="Write assignment details here"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="assignment-upload" class="form-label">Upload Files</label>
+                    <input type="file" class="form-control" id="assignment-upload" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                </div>
+                <div class="mb-3">
+                    <label for="assignment-deadline" class="form-label">Deadline</label>
+                    <input type="datetime-local" class="form-control" id="assignment-deadline">
+                </div>
+                <div class="mb-3">
+                    <label for="assignment-module" class="form-label">Send to Module</label>
+                    <select id="assignment-module" class="form-control">
+                        <option value="module1">Module 1</option>
+                        <option value="module2">Module 2</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Assignment</button>
+            </form>
+        </div>
+ 
+        <!-- Enroll Students Panel -->
+        <div id="enroll-students" class="container mt-4" style="display: none;">
+            <h2>Enroll Students</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="student-name" class="form-label">Student Name</label>
+                    <input type="text" class="form-control" id="student-name" placeholder="Enter student name">
+                </div>
+                <div class="mb-3">
+                    <label for="student-email" class="form-label">Student Email</label>
+                    <input type="email" class="form-control" id="student-email" placeholder="Enter student email">
+                </div>
+                <div class="mb-3">
+                    <label for="student-module" class="form-label">Enroll in Module</label>
+                    <select id="student-module" class="form-control">
+                        <option value="module1">Module 1</option>
+                        <option value="module2">Module 2</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Enroll Student</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Enroll Students Panel -->
+<div id="enroll-students" class="container mt-4" style="display: none;">
+    <h2>Enroll Students</h2>
+    <form>
+        <div class="mb-3">
+            <label for="student-name" class="form-label">Student Name</label>
+            <input type="text" class="form-control" id="student-name" placeholder="Enter student name">
+        </div>
+        <div class="mb-3">
+            <label for="student-email" class="form-label">Student Email</label>
+            <input type="email" class="form-control" id="student-email" placeholder="Enter student email">
+        </div>
+        <div class="mb-3">
+            <label for="student-module" class="form-label">Enroll in Module</label>
+            <select id="student-module" class="form-control">
+                <option value="module1">Module 1</option>
+                <option value="module2">Module 2</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Enroll Student</button>
+    </form>
+</div>
+</div>
+
+<script>
+function showPanel(panelId) {
+    var panels = document.querySelectorAll('.main-content > .container');
+    panels.forEach(panel => {
+        if (panel.id === panelId) {
+            panel.style.display = 'block';
+        } else {
+            panel.style.display = 'none';
+        }
+    });
+}
+</script>
+</body>
+</html>
